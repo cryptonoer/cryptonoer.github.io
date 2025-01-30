@@ -22,10 +22,10 @@
             padding: 0;
         }
         .list li {
-            background: #e7e7e7;
             margin: 5px 0;
             padding: 10px;
             border-radius: 5px;
+            font-size: 16px;
         }
         .gainer {
             background: #ccffcc;
@@ -35,10 +35,17 @@
             background: #ffcccc;
             border: 1px solid #ff0000;
         }
+        .status {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Crypto: Icikiwir Tunggu paling lama 1 Menit</h1>
+    <div class="status" id="status">Memuat data...</div>
     <div class="section">
         <h2>Pesawat Terbang 🚀</h2>
         <ul id="gainers" class="list"></ul>
@@ -49,55 +56,50 @@
     </div>
 
     <script>
-        (function() {
-            const _0xcrypto = [
-                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd",
-                "fetch",
-                "then",
-                "json",
-                "sort",
-                "slice",
-                "reverse",
-                "innerHTML",
-                "getElementById",
-                "createElement",
-                "appendChild",
-                "classList",
-                "add",
-                "toFixed",
-                "log",
-                "error"
-            ];
-            
-            async function _0xupdateData() {
-                try {
-                    const _0xresponse = await window[_0xcrypto[1]](_0xcrypto[0]);
-                    const _0xdata = await _0xresponse[_0xcrypto[2]]((_0xjson) => _0xjson[_0xcrypto[3]]());
-                    const _0xsorted = [..._0xdata][_0xcrypto[4]]((_a, _b) => _b.price_change_percentage_24h - _a.price_change_percentage_24h);
-                    
-                    _0xupdateList("gainers", _0xsorted[_0xcrypto[5]](0, 10), "gainer");
-                    _0xupdateList("losers", _0xsorted[_0xcrypto[5]](-10)[_0xcrypto[6]](), "loser");
+        const apiURL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
 
-                } catch (_0xerror) {
-                    console[_0xcrypto[15]]("Error fetching data:", _0xerror);
-                }
+        async function fetchCryptoData() {
+            const statusElement = document.getElementById("status");
+            try {
+                statusElement.innerText = "Memuat data...";
+                const response = await fetch(apiURL);
+                if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+
+                const data = await response.json();
+                const sortedByChange = [...data].sort((a, b) => b.price_change_percentage_24h - a.price_change_percentage_24h);
+
+                updateList("gainers", sortedByChange.slice(0, 10), "gainer");
+                updateList("losers", sortedByChange.slice(-10).reverse(), "loser");
+
+                const timeUpdated = new Date().toLocaleTimeString();
+                statusElement.innerText = `Terakhir diperbarui: ${timeUpdated}`;
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                statusElement.innerText = "Gagal memuat data. Coba lagi nanti.";
             }
+        }
 
-            function _0xupdateList(_0xid, _0xcoins, _0xclass) {
-                const _0xul = document[_0xcrypto[8]](_0xid);
-                _0xul[_0xcrypto[7]] = "";
+        function updateList(elementId, coins, className) {
+            const list = document.getElementById(elementId);
+            list.innerHTML = ""; 
 
-                _0xcoins.forEach((_0xcoin) => {
-                    const _0xli = document[_0xcrypto[9]]("li");
-                    _0xli[_0xcrypto[11]][_0xcrypto[12]](_0xclass);
-                    _0xli}<br>Perubahan 24h: ${_0xcoin.price_change_percentage_24h }%`;
-                    _0xul[_0xcrypto[10]](_0xli);
-                });
-            }
+            coins.forEach(coin => {
+                const listItem = document.createElement("li");
+                listItem.classList.add(className);
+                listItem.innerHTML = `
+                    <strong>${coin.name} (${coin.symbol.toUpperCase()})</strong><br>
+                    Harga: $${coin.current_price.toFixed(2)}<br>
+                    Perubahan 24h: ${coin.price_change_percentage_24h.toFixed(2)}%
+                `;
+                list.appendChild(listItem);
+            });
+        }
 
-            _0xupdateData();
-            setInterval(_0xupdateData, 1000);
-        })();
+        // Jalankan fetch pertama kali saat halaman dimuat
+        fetchCryptoData();
+        // Perbarui data setiap 1 menit
+        setInterval(fetchCryptoData, 60000);
     </script>
 </body>
 </html>
