@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Notifikasi Harga Jumper dan Dumper</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .list {
+            list-style: none;
+            padding: 0;
+        }
+        .list li {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .gainer {
+            background: #ccffcc;
+            border: 1px solid #00b300;
+        }
+        .loser {
+            background: #ffcccc;
+            border: 1px solid #ff0000;
+        }
+        .status {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Crypto: Icikiwir Tunggu paling lama 1 Menit</h1>
+    <div class="status" id="status">Memuat data...</div>
+    <div class="section">
+        <h2>Pesawat Terbang 🚀</h2>
+        <ul id="gainers" class="list"></ul>
+    </div>
+    <div class="section">
+        <h2>Terjun Bebas 📉</h2>
+        <ul id="losers" class="list"></ul>
+    </div>
+
+    <script>
+        (function() {
+            const _0x1a2b = [
+                "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd",
+                "fetch",
+                "then",
+                "json",
+                "sort",
+                "slice",
+                "reverse",
+                "innerHTML",
+                "getElementById",
+                "createElement",
+                "appendChild",
+                "classList",
+                "add",
+                "textContent",
+                "toFixed",
+                "log",
+                "error"
+            ];
+            
+            async function _0x3c4d() {
+                try {
+                    document[_0x1a2b[8]]("status")[_0x1a2b[7]] = "Memuat data...";
+                    const _0x5e6f = await window[_0x1a2b[1]](_0x1a2b[0]);
+                    const _0x7d8a = await _0x5e6f[_0x1a2b[2]]((_0x9bcd) => _0x9bcd[_0x1a2b[3]]());
+                    const _0xce1d = [..._0x7d8a][_0x1a2b[4]]((_0x2f5b, _0x3e7c) => _0x3e7c.price_change_percentage_24h - _0x2f5b.price_change_percentage_24h);
+                    
+                    _0x6e9f("gainers", _0xce1d[_0x1a2b[5]](0, 10), "gainer");
+                    _0x6e9f("losers", _0xce1d[_0x1a2b[5]](-10)[_0x1a2b[6]](), "loser");
+
+                    document[_0x1a2b[8]]("status")[_0x1a2b[7]] = "Terakhir diperbarui: " + new Date().toLocaleTimeString();
+                } catch (_0x8bdf) {
+                    console[_0x1a2b[16]]("Error fetching data:", _0x8bdf);
+                    document[_0x1a2b[8]]("status")[_0x1a2b[7]] = "Gagal memuat data!";
+                }
+            }
+
+            function _0x6e9f(_0x4a6d, _0x5b7e, _0x6c8f) {
+                const _0x9d2a = document[_0x1a2b[8]](_0x4a6d);
+                _0x9d2a[_0x1a2b[7]] = "";
+
+                _0x5b7e.forEach((_0x7e8f) => {
+                    const _0xabcd = document[_0x1a2b[9]]("li");
+                    _0xabcd[_0x1a2b[11]][_0x1a2b[12]](_0x6c8f);
+                    _0xabcd}<br>Perubahan 24h: ${_0x7e8f.price_change_percentage_24h          _0x9d2a[_0x1a2b[10]](_0xabcd);
+                });
+            }
+
+            _0x3c4d();
+            setInterval(_0x3c4d, 60000);
+        })();
+    </script>
+</body>
+</html>
