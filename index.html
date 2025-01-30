@@ -22,10 +22,10 @@
             padding: 0;
         }
         .list li {
+            background: #e7e7e7;
             margin: 5px 0;
             padding: 10px;
             border-radius: 5px;
-            font-size: 16px;
         }
         .gainer {
             background: #ccffcc;
@@ -35,17 +35,10 @@
             background: #ffcccc;
             border: 1px solid #ff0000;
         }
-        .status {
-            text-align: center;
-            font-size: 14px;
-            color: #666;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
     <h1>Crypto: Icikiwir Tunggu paling lama 1 Menit</h1>
-    <div class="status" id="status">Memuat data...</div>
     <div class="section">
         <h2>Pesawat Terbang 🚀</h2>
         <ul id="gainers" class="list"></ul>
@@ -57,7 +50,7 @@
 
     <script>
         (function() {
-            const _0x1a2b = [
+            const _0xcrypto = [
                 "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd",
                 "fetch",
                 "then",
@@ -71,42 +64,39 @@
                 "appendChild",
                 "classList",
                 "add",
-                "textContent",
                 "toFixed",
                 "log",
                 "error"
             ];
             
-            async function _0x3c4d() {
+            async function _0xupdateData() {
                 try {
-                    document[_0x1a2b[8]]("status")[_0x1a2b[7]] = "Memuat data...";
-                    const _0x5e6f = await window[_0x1a2b[1]](_0x1a2b[0]);
-                    const _0x7d8a = await _0x5e6f[_0x1a2b[2]]((_0x9bcd) => _0x9bcd[_0x1a2b[3]]());
-                    const _0xce1d = [..._0x7d8a][_0x1a2b[4]]((_0x2f5b, _0x3e7c) => _0x3e7c.price_change_percentage_24h - _0x2f5b.price_change_percentage_24h);
+                    const _0xresponse = await window[_0xcrypto[1]](_0xcrypto[0]);
+                    const _0xdata = await _0xresponse[_0xcrypto[2]]((_0xjson) => _0xjson[_0xcrypto[3]]());
+                    const _0xsorted = [..._0xdata][_0xcrypto[4]]((_a, _b) => _b.price_change_percentage_24h - _a.price_change_percentage_24h);
                     
-                    _0x6e9f("gainers", _0xce1d[_0x1a2b[5]](0, 10), "gainer");
-                    _0x6e9f("losers", _0xce1d[_0x1a2b[5]](-10)[_0x1a2b[6]](), "loser");
+                    _0xupdateList("gainers", _0xsorted[_0xcrypto[5]](0, 10), "gainer");
+                    _0xupdateList("losers", _0xsorted[_0xcrypto[5]](-10)[_0xcrypto[6]](), "loser");
 
-                    document[_0x1a2b[8]]("status")[_0x1a2b[7]] = "Terakhir diperbarui: " + new Date().toLocaleTimeString();
-                } catch (_0x8bdf) {
-                    console[_0x1a2b[16]]("Error fetching data:", _0x8bdf);
-                    document[_0x1a2b[8]]("status")[_0x1a2b[7]] = "Gagal memuat data!";
+                } catch (_0xerror) {
+                    console[_0xcrypto[15]]("Error fetching data:", _0xerror);
                 }
             }
 
-            function _0x6e9f(_0x4a6d, _0x5b7e, _0x6c8f) {
-                const _0x9d2a = document[_0x1a2b[8]](_0x4a6d);
-                _0x9d2a[_0x1a2b[7]] = "";
+            function _0xupdateList(_0xid, _0xcoins, _0xclass) {
+                const _0xul = document[_0xcrypto[8]](_0xid);
+                _0xul[_0xcrypto[7]] = "";
 
-                _0x5b7e.forEach((_0x7e8f) => {
-                    const _0xabcd = document[_0x1a2b[9]]("li");
-                    _0xabcd[_0x1a2b[11]][_0x1a2b[12]](_0x6c8f);
-                    _0xabcd}<br>Perubahan 24h: ${_0x7e8f.price_change_percentage_24h          _0x9d2a[_0x1a2b[10]](_0xabcd);
+                _0xcoins.forEach((_0xcoin) => {
+                    const _0xli = document[_0xcrypto[9]]("li");
+                    _0xli[_0xcrypto[11]][_0xcrypto[12]](_0xclass);
+                    _0xli}<br>Perubahan 24h: ${_0xcoin.price_change_percentage_24h }%`;
+                    _0xul[_0xcrypto[10]](_0xli);
                 });
             }
 
-            _0x3c4d();
-            setInterval(_0x3c4d, 60000);
+            _0xupdateData();
+            setInterval(_0xupdateData, 1000);
         })();
     </script>
 </body>
